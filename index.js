@@ -74,6 +74,29 @@ async function run() {
             res.send(result);
         })
 
+        // PUT api to update product in product collection
+        app.put('/product/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedProduct = req.body;
+            console.log(updatedProduct);
+            const newProduct = {
+                $set: {
+                    image: updatedProduct.image,
+                    name: updatedProduct.name,
+                    brand: updatedProduct.brand,
+                    type: updatedProduct.type,
+                    price: updatedProduct.price,
+                    rating: updatedProduct.rating,
+                    description: updatedProduct.description,
+                }
+            };
+            console.log(newProduct);
+            const result = await productCollection.updateOne(filter, newProduct, options);
+            res.send(result);
+        })
+
     } finally {
         // Ensures that the client will close when you finish/error
         // await client.close();
