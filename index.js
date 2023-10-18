@@ -32,6 +32,23 @@ async function run() {
 
         const productCollection = client.db("automotiveDB").collection("products");
 
+        // GET api to get all products
+        app.get('/products', async (req, res) => {
+            const cursor = productCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // GET api to get a single product by brand name
+        app.get('/products/:name', async (req, res) => {
+            const name = req.params.name;
+            const query = { brand: name };
+            const cursor = productCollection.find(query);
+            const result = await cursor.toArray();
+            console.log(result);
+            res.send(result);
+        })
+
         // POST api to add products
         app.post('/products', async (req, res) => {
             const product = req.body;
