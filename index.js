@@ -40,6 +40,13 @@ async function run() {
             res.send(result);
         })
 
+        // GET api to get all cart products
+        app.get('/cartProducts', async (req, res) => {
+            const cursor = cartCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
         // GET api to get products by brand name
         app.get('/products/:name', async (req, res) => {
             const name = req.params.name;
