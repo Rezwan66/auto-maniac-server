@@ -65,6 +65,14 @@ async function run() {
             res.send(result);
         })
 
+        // GET api to get a single cart product by id
+        app.get('/cartProducts/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await cartCollection.findOne(query);
+            res.send(result);
+        })
+
         // POST api to add products
         app.post('/products', async (req, res) => {
             const product = req.body;
@@ -101,6 +109,14 @@ async function run() {
             };
             console.log(newProduct);
             const result = await productCollection.updateOne(filter, newProduct, options);
+            res.send(result);
+        })
+
+        // DELETE a product from the cart using id
+        app.delete('/cartProducts/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await cartCollection.deleteOne(query);
             res.send(result);
         })
 
