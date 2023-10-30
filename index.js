@@ -75,10 +75,14 @@ async function run() {
 
         // POST api to add products
         app.post('/products', async (req, res) => {
-            const product = req.body;
-            console.log(product);
-            const result = await productCollection.insertOne(product);
-            res.send(result);
+            try {
+                const product = req.body;
+                console.log(product);
+                const result = await productCollection.insertOne(product);
+                res.send(result);
+            } catch (err) {
+                console.log(err);
+            }
         })
 
         // POST api to add products to cart
